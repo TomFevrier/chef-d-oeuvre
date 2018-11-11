@@ -15,7 +15,7 @@ function draw(data) {
 	var nested = d3.nest()
 		.key(function(d) { return d.director; })
 		.entries(data);
-		
+
 
 	nested.forEach(function(filmography) {
 		filmography.values = filmography.values.sort(function(a, b) {
@@ -23,7 +23,7 @@ function draw(data) {
 		});
 	});
 
-	
+
 	// Sorting data so that the little circles are drawn after the large ones
 
 	data = data.sort(function(a, b) {
@@ -62,31 +62,24 @@ function draw(data) {
 		switch(director) {
 			case 'Steven Spielberg':
 				return '#3C0064';
-				break;
 			case 'Christopher Nolan':
 				return '#144C80';
-				break;
 			case 'Lilly & Lana Wachowski':
 				return '#F80060';
-				break;
 			case 'Quentin Tarantino':
 				return '#F8E600';
-				break;
 			case 'Stanley Kubrick':
 				return '#EC4600';
-				break;
 			case 'Michael Bay':
 				return '#DA0000';
-				break;
 			case 'Peter Jackson':
 				return '#004F14';
-				break;
 			case 'Ridley Scott':
 				return '#424242';
-				break;
 			case 'Guillermo del Toro':
 				return '#007850';
-				break;
+			case 'Paul W.S. Anderson':
+				return '#101010';
 		}
 	}
 
@@ -99,7 +92,7 @@ function draw(data) {
 		.curve(d3.curveCatmullRom)
     	.x(function(d) { return xScale(d.year); })
     	.y(function(d) { return yScale(d.rating); });
-    	
+
     	const mainDirectors = ['Steven Spielberg', 'Christopher Nolan', 'Stanley Kubrick', 'Quentin Tarantino'];
 
 
@@ -188,11 +181,11 @@ function draw(data) {
 					.duration(200)
 					.style('opacity', .9);
 				tooltip.html(function() {
-					
+
 					return '<h3>' + d.title.toUpperCase() + ' (' + d.year.getFullYear() + ')</h3>' +
 					d.rating + '/10 &emsp; $' +  boxOfficeFormat(d.boxOffice);
 				})
-					
+
 					.style('left', (d3.event.pageX) + 'px')
 					.style('top', (d3.event.pageY - 28) + 'px')
 					.style('width', (d.title.length + 1) * 20);
@@ -235,9 +228,9 @@ function draw(data) {
 
 	// Legend
 	nested.forEach(function(d, i) {
-	
+
 		var group = d3.select('svg').append('g');
-		
+
 		group.append('title')
 			.text(d.key)
 			.attr('class', 'legend-director');
@@ -297,5 +290,5 @@ function draw(data) {
 
 
 function nameToId(name) {
-	return name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and');
+	return name.toLowerCase().replace(/ /g, '-').replace(/&/g, 'and').replace(/\./g, '');
 }
